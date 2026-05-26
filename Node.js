@@ -1,17 +1,16 @@
-const express = require('express');
+const express = require("express");
+const path = require("path");
+
 const app = express();
-const fetch = require('node-fetch');
 
-app.use(express.static('.'));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.get('/track/:ip', async (req, res) => {
-    const ip = req.params.ip;
-    const apiKey = 'YOUR_IP_API_KEY'; // Get one from ip-api.com
-    const response = await fetch(`http://ip-api.com/json/${ip}?key=${apiKey}`);
-    const data = await response.json();
-    res.json(data);
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.listen(3000, () => {
-    console.log('Server running on port 3000');
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
